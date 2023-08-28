@@ -1,0 +1,3 @@
+/home/shogo/master/dev/mdg/game/CMake/out/build/CMakeFiles/__Legacy__.dir
+/home/shogo/master/dev/mdg/game/CMake/out/build/CMakeFiles/edit_cache.dir
+/home/shogo/master/dev/mdg/game/CMake/out/build/CMakeFiles/rebuild_cache.dir
