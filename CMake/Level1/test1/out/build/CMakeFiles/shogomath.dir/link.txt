@@ -1,0 +1,2 @@
+/usr/bin/ar qc libshogomath.a CMakeFiles/shogomath.dir/adder.cpp.o
+/usr/bin/ranlib libshogomath.a

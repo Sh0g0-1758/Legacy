@@ -1,0 +1,2 @@
+/usr/local/lib/libshogomath.a
+/usr/local/include/adder.h
