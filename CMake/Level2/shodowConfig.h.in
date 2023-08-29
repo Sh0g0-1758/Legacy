@@ -1,2 +1,4 @@
 #define shodow_VERSION_MAJOR @shodow_VERSION_MAJOR@
 #define shodow_VERSION_MINOR @shodow_VERSION_MINOR@
+
+#cmakedefine USE_ADDER

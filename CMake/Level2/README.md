@@ -95,3 +95,42 @@ Now in your main.cpp file you can easily access the Version of your project usin
 std::cout << argv[0] << " Version " << ${PROJECT_NAME}_VERSION_MAJOR << "." << ${PROJECT_NAME}_VERSION_MINOR << "\n";
 // Also don't forget to include the header file #include <${PROJECT_NAME}Config.h>
 ```
+
+## To Let the user choose which library to use while running the project. 
+
+make use of if else and endif statements in the cmake file. Give the user an option to use that library or not. 
+
+```C
+option(USE_ADDER "A Simple library for adding 2 floats. " ON)
+
+if(USE_ADDER)
+    add_subdirectory(Adder)
+
+    list(APPEND EXTRA_LIBS Adder)
+    list(APPEND EXTRA_INCLUDES ${PROJECT_SOURCE_DIR}/Adder)
+
+    target_include_directories(${PROJECT_NAME} PUBLIC Adder)
+
+    target_link_directories(${PROJECT_NAME} PUBLIC Adder)
+endif()
+
+```
+
+Now add ifdef and endif statements in your main cpp file.
+whether to use that library or not according to the user preference. 
+
+Something like : 
+
+```cpp
+#ifdef USE_ADDER
+    #include<adder.h>
+#endif
+
+// ---------------------------------
+    #ifdef USE_ADDER
+        std::cout << "namespace output : " << namespace::add(72.1f,73.8f) << "\n";
+    #else
+        std::cout << 72.1f + 73.8f << "\n";
+    #endif
+```
+

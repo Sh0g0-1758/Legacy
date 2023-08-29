@@ -2,15 +2,26 @@ cmake_minimum_required(VERSION 3.22.1)
 
 project(shodow VERSION 1.0)
 
-# Versioning the project
-configure_file(shodowConfig.h.in shodowConfig.h)
-
-
 add_executable(${PROJECT_NAME} main.cpp)
+# adder use logic
+option(USE_ADDER "A Simple library for adding 2 floats. " ON)
+
+if(USE_ADDER)
+    add_subdirectory(Adder)
+
+    list(APPEND EXTRA_LIBS Adder)
+    list(APPEND EXTRA_INCLUDES ${PROJECT_SOURCE_DIR}/Adder)
+
+    target_include_directories(${PROJECT_NAME} PUBLIC Adder)
+
+    target_link_directories(${PROJECT_NAME} PUBLIC Adder)
+endif()
+
+# Versioning the project
 
 
+configure_file(shodowConfig.h.in shodowConfig.h)
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_BINARY_DIR})
-
 
 #                    DOWNLOAD ALL THE SUBMODULES
 find_package(Git QUIET)
@@ -33,18 +44,18 @@ if(NOT EXISTS "${PROJECT_SOURCE_DIR}/external/glfw/CMakeLists.txt")
     message(FATAL_ERROR "The glfw submodules were not downloaded! GIT_SUBMODULE was turned off or it failed. ")
 endif()
 
-
-
 add_subdirectory(external/glfw)
 
 target_link_libraries(shodow shogomath)
 
 target_include_directories(${PROJECT_NAME}
     PUBLIC external/glfw/src
+    ${EXTRA_INCLUDES}
 )
 
 target_link_directories(${PROJECT_NAME}
     PRIVATE external/glfw/src
+    ${EXTRA_LIBS}
 )
 
 target_link_libraries(${PROJECT_NAME} glfw)
