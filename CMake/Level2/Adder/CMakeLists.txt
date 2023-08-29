@@ -1,5 +1,4 @@
-cmake_minimum_required(VERSION 3.22.1)
+add_library(adder adder.cpp adder.h)
 
-project(shogomath)
-
-add_library(shogomath adder.cpp)
+install(TARGETS adder DESTINATION lib)
+install(FILES adder.h DESTINATION include)

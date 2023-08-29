@@ -134,3 +134,17 @@ Something like :
     #endif
 ```
 
+## To install your project
+
+Add the following to CMakeLists.txt
+
+```C
+install(TARGETS ${PROJECT_NAME} DESTINATION bin)
+install(FILES "${PROJECT_BINARY_DIR}/{ProjectName}Config.h" DESTINATION include)
+```
+
+and change configure.sh to 
+
+```C
+cmake -DGLFW_BUILD_DOCS=OFF -DUSE_ADDER=ON -S . -B out/build // To not make the docs
+```
