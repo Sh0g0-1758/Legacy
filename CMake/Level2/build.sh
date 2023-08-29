@@ -1,0 +1,1 @@
+cd out/build ; make
