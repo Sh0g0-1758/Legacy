@@ -1,10 +1,13 @@
 #include <iostream>
 #include <adder.h>
 #include <GLFW/glfw3.h>
+#include <shodowConfig.h>
 
-int main() {
+int main(int argc, char* argv[]) {
     std::cout << "Hey, mNA \n";
     std::cout << shogomath::add(72.1f,73.8f) << "\n";
+
+    std::cout << argv[0] << " Version " << shodow_VERSION_MAJOR << "." << shodow_VERSION_MINOR << "\n";
 
     GLFWwindow *window;
 

@@ -4,7 +4,7 @@ Here I have added glfw windowing library as a submodule.
 
 Run the following command to add a submodule. 
 
-```
+```bash
 git add submodule {repo:url} external
 ```
 
@@ -13,7 +13,7 @@ Basically a submodule is kinda a magical thing. It allows use to someone else co
 In the CMakeLists.txt file, do the following changes : 
 
 
-```
+```C
 add_subdirectory(external/glfw)
 
 target_include_directories(${PROJECT_NAME}
@@ -37,13 +37,13 @@ check out build.sh, configure.sh and run.sh
 
 Run this command : 
 
-```
+```bash
 git submodule update --init --recursive
 ```
 
 Or , you can let CMake handle all the things by adding this script in your CMakeLists.txt
 
-```
+```C
 #                    DOWNLOAD ALL THE SUBMODULES
 find_package(Git QUIET)
 if(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
@@ -65,4 +65,33 @@ if(NOT EXISTS "${PROJECT_SOURCE_DIR}/external/glfw/CMakeLists.txt")
     message(FATAL_ERROR "The glfw submodules were not downloaded! GIT_SUBMODULE was turned off or it failed. ")
 endif()
 
+```
+
+## To add versioning in your project. 
+
+Add the following lines in your CMakeLists.txt file : 
+
+```C
+configure_file(${PROJECT_NAME}.h.in ${PROJECT_NAME}.h)
+
+
+add_executable(${PROJECT_NAME} main.cpp)
+
+
+target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_BINARY_DIR})
+```
+
+Then make a ${PROJECT_NAME}Config.h.in file and add the following lines of code in it : 
+
+
+```cpp
+#define ${PROJECT_NAME}_VERSION_MAJOR @${PROJECT_NAME}_VERSION_MAJOR@
+#define ${PROJECT_NAME}_VERSION_MINOR @${PROJECT_NAME}_VERSION_MINOR@
+```
+
+Now in your main.cpp file you can easily access the Version of your project using : 
+
+```cpp
+std::cout << argv[0] << " Version " << ${PROJECT_NAME}_VERSION_MAJOR << "." << ${PROJECT_NAME}_VERSION_MINOR << "\n";
+// Also don't forget to include the header file #include <${PROJECT_NAME}Config.h>
 ```

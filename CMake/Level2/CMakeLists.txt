@@ -1,8 +1,16 @@
 cmake_minimum_required(VERSION 3.22.1)
 
-project(shodow)
+project(shodow VERSION 1.0)
+
+# Versioning the project
+configure_file(shodowConfig.h.in shodowConfig.h)
+
 
 add_executable(${PROJECT_NAME} main.cpp)
+
+
+target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_BINARY_DIR})
+
 
 #                    DOWNLOAD ALL THE SUBMODULES
 find_package(Git QUIET)
