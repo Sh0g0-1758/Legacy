@@ -6,11 +6,12 @@ Technologies used :
 
 ```
 Programming stuff :
+
 C++
 CMake
 
 Graphics stuff :
-SDL
+
 GLFW
 OpenGL
 GLM
@@ -18,6 +19,7 @@ stb_image
 assimp
 
 Maths and image rendering stuff :
+
 numpy
-openCV (edited) 
+openCV (edited)
 ```
