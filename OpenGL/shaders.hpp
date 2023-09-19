@@ -3,10 +3,9 @@
 
 #include "glad/glad.h"
 
-#include <string>
-#include <fstream>
-#include <sstream>
 #include <iostream>
+#include <fstream>
+#include <string>
 
 class Shader
 {
@@ -14,40 +13,57 @@ public:
     unsigned int ID;
     // constructor generates the shader on the fly
     // ------------------------------------------------------------------------
-    Shader(const char* vertexPath, const char* fragmentPath)
+    Shader(const char *vertexPath, const char *fragmentPath)
     {
-        // 1. retrieve the vertex/fragment source code from filePath
+
         std::string vertexCode;
         std::string fragmentCode;
-        std::ifstream vShaderFile;
-        std::ifstream fShaderFile;
-        // ensure ifstream objects can throw exceptions:
-        vShaderFile.exceptions (std::ifstream::failbit | std::ifstream::badbit);
-        fShaderFile.exceptions (std::ifstream::failbit | std::ifstream::badbit);
-        try 
+
+        std::ifstream Vertexfile(vertexPath);
+
+        // Check if the file is open
+        if (!Vertexfile.is_open())
         {
-            // open files
-            vShaderFile.open(vertexPath);
-            fShaderFile.open(fragmentPath);
-            std::stringstream vShaderStream, fShaderStream;
-            // read file's buffer contents into streams
-            vShaderStream << vShaderFile.rdbuf();
-            fShaderStream << fShaderFile.rdbuf();
-            // close file handlers
-            vShaderFile.close();
-            fShaderFile.close();
-            // convert stream into string
-            vertexCode   = vShaderStream.str();
-            fragmentCode = fShaderStream.str();
+            std::cerr << "Failed to open the file: " << vertexPath << std::endl;
         }
-        catch (std::ifstream::failure& e)
+
+        // Read the entire file into a string
+        std::string line1;
+        while (std::getline(Vertexfile, line1))
         {
-            std::cout << e.code() << std::endl;
-            // std::cout << ~exception << std::endl;
-            std::cout << "ERROR::SHADER::FILE_NOT_SUCCESSFULLY_READ: " << e.what() << std::endl;
+            vertexCode += line1; // Append the line to the string
+            if (!Vertexfile.eof())
+            {
+                vertexCode += '\n'; // Add a newline character for all lines except the last one
+            }
         }
-        const char* vShaderCode = vertexCode.c_str();
-        const char * fShaderCode = fragmentCode.c_str();
+
+        // Close the file
+        Vertexfile.close();
+
+        std::ifstream fragmentFile(fragmentPath);
+
+        // Check if the file is open
+        if (!fragmentFile.is_open())
+        {
+            std::cerr << "Failed to open the file: " << fragmentPath << std::endl;
+        }
+
+        // Read the entire file into a string
+        std::string line2;
+        while (std::getline(fragmentFile, line2))
+        {
+            fragmentCode += line2; // Append the line to the string
+            if (!fragmentFile.eof())
+            {
+                fragmentCode += '\n'; // Add a newline character for all lines except the last one
+            }
+        }
+
+        // Close the file
+        fragmentFile.close();
+        const char *vShaderCode = vertexCode.c_str();
+        const char *fShaderCode = fragmentCode.c_str();
         // 2. compile shaders
         unsigned int vertex, fragment;
         // vertex shader
@@ -72,25 +88,25 @@ public:
     }
     // activate the shader
     // ------------------------------------------------------------------------
-    void use() 
-    { 
-        glUseProgram(ID); 
+    void use()
+    {
+        glUseProgram(ID);
     }
     // utility uniform functions
     // ------------------------------------------------------------------------
     void setBool(const std::string &name, bool value) const
-    {         
-        glUniform1i(glGetUniformLocation(ID, name.c_str()), (int)value); 
+    {
+        glUniform1i(glGetUniformLocation(ID, name.c_str()), (int)value);
     }
     // ------------------------------------------------------------------------
     void setInt(const std::string &name, int value) const
-    { 
-        glUniform1i(glGetUniformLocation(ID, name.c_str()), value); 
+    {
+        glUniform1i(glGetUniformLocation(ID, name.c_str()), value);
     }
     // ------------------------------------------------------------------------
     void setFloat(const std::string &name, float value) const
-    { 
-        glUniform1f(glGetUniformLocation(ID, name.c_str()), value); 
+    {
+        glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
     }
 
 private:
@@ -106,7 +122,8 @@ private:
             if (!success)
             {
                 glGetShaderInfoLog(shader, 1024, NULL, infoLog);
-                std::cout << "ERROR::SHADER_COMPILATION_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
+                std::cout << "ERROR::SHADER_COMPILATION_ERROR of type: " << type << "\n"
+                          << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
             }
         }
         else
@@ -115,7 +132,8 @@ private:
             if (!success)
             {
                 glGetProgramInfoLog(shader, 1024, NULL, infoLog);
-                std::cout << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
+                std::cout << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n"
+                          << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
             }
         }
     }
