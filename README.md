@@ -1,6 +1,6 @@
 ## A Documentation of my graphic programming journey
 
-I looked up graphic programming a while back and thought to check it out. 
+I looked up graphic programming a while back because I thought it was cool.
 
 I then decided to document My Journey and do two projects : 
 
