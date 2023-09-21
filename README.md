@@ -1,25 +1,8 @@
-## Trying to learn and make a game from scratch in CPP . 
+## A Documentation of my graphic programming journey
 
-Just me trying to learn some cool stuff. 
+I looked up graphic programming a while back and thought to check it out. 
 
-Technologies used : 
+I then decided to document My Journey and do two projects : 
 
-```
-Programming stuff :
-
-C++
-CMake
-
-Graphics stuff :
-
-GLFW
-OpenGL
-GLM
-stb_image
-assimp
-
-Maths and image rendering stuff :
-
-numpy
-openCV (edited)
-```
+1. Fractals
+2. Minecraft clone
